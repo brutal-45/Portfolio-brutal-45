@@ -1,0 +1,34 @@
+name: python scipt
+
+on:
+   workflows_dispatch:
+   #Triggermanually onece, and it will lool
+
+permissions:
+  contents: write
+
+jobs:
+  update-timestanps:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v4
+     - name: Run every 5 minutes in a loop
+       run: |
+         git config user.name "brutal-45"
+         git config user.email "creatorsports81@gmail.com"
+
+         # Run for 5 hours (60 interraction x 5 minutes = 300 minutes)
+         for i in {1..60}; do
+           Timestanps_FIles="updates.txt"
+           echo "Last checked: $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$TIMESTAMP_FILE"
+           git add "$TIMESTAMP_FILE"
+
+           if ! git diff --cached --quiet; then
+              git commit -m "pthon script: $(date -u)"
+              git push origin HEAD
+            fi
+
+            echo "Wating 5 minutes..."
+            sleep 300
+           done 
+        
